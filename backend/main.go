@@ -1,19 +1,29 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"log"
 	"net/http"
 )
 
+func HealthHandler(w http.ResponseWriter, r *http.Request){
+	// w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
+	// json.NewEncoder(w).Encode(map[string]string{"status":"ok"})
+
+	writeJSON(w, http.StatusOK, map[string]string{"status":"ok"})
+}
+
+func writeJSON(w http.ResponseWriter, status  int, data any){
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(data)
+}
+
 func main() {
-	mux := http.NewServeMux() //creates a new router
+	mux := http.NewServeMux()
+	mux.HandleFunc("GET /health", HealthHandler)
 
-	mux.HandleFunc("GET /health", func (w http.ResponseWriter, r *http.Request){ 
-		fmt.Fprintf(w, "ok")	//resposnse to the browser
-	})
-
-	log.Printf("starting server on :8080")
-	report := http.ListenAndServe("8080", mux)
-	log.Fatal(report)
+	log.Printf("listening on port :8080")
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }
