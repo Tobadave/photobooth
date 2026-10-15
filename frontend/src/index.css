@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* Light-table palette: cool paper, ink, and a single safelight red. */
+@theme {
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --color-paper: #e9e8e4;
+  --color-card: #f6f5f2;
+  --color-ink: #17181b;
+  --color-line: #d2d0c9;
+  --color-mute: #6a6964;
+  --color-flash: #d93a3a;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-flash);
+  outline-offset: 2px;
+}
